@@ -73,9 +73,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
           {guest.companionNames.length > 0 && (
             <div className="mx-auto mt-8 max-w-md">
               <p className="text-sm text-[var(--ink-muted)]">Y para tu acompañante{guest.companionNames.length > 1 ? "s" : ""}</p>
-              <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-[var(--clay)]">
-                {guest.companionNames.map((name: string) => <span key={name}>{name}</span>)}
-              </div>
+              <p className="mt-3 text-sm text-[var(--clay)]">{guest.companionNames.join(" | ")}</p>
             </div>
           )}
         </section>
