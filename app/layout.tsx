@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Invitación de Matrimonio",
-  description: "Confirmá tu asistencia a nuestro matrimonio",
+  title: "Natalia & Robinson | Invitación",
+  description: "Acompañanos a celebrar nuestro matrimonio",
 }
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-stone-50">{children}</body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   )
 }

@@ -4,9 +4,9 @@ import { AttendanceForm } from "@/components/AttendanceForm"
 import type { AttendanceStatus } from "@/types/guest"
 
 interface Props {
-  guestId: string
   currentStatus: string
   maxGuests: number
+  confirmedGuests: number | null
   confirmAttendance: (data: {
     status: AttendanceStatus
     confirmedGuests: number
@@ -15,16 +15,16 @@ interface Props {
 }
 
 export default function ConfirmClient({
-  guestId,
   currentStatus,
   maxGuests,
+  confirmedGuests,
   confirmAttendance,
 }: Props) {
   return (
     <AttendanceForm
-      guestId={guestId}
       currentStatus={currentStatus}
       maxGuests={maxGuests}
+      confirmedGuests={confirmedGuests}
       onSubmit={confirmAttendance}
     />
   )

@@ -4,15 +4,18 @@ import { useState } from "react"
 import type { AttendanceStatus } from "@/types/guest"
 
 interface Props {
-  guestId: string
   currentStatus: string
   maxGuests: number
+  confirmedGuests: number | null
   onSubmit: (data: { status: AttendanceStatus; confirmedGuests: number }) => Promise<void>
 }
 
-export function AttendanceForm({ guestId, currentStatus, maxGuests, onSubmit }: Props) {
-  const [status, setStatus] = useState<AttendanceStatus>("Confirmado")
-  const [confirmedGuests, setConfirmedGuests] = useState(0)
+export function AttendanceForm({ currentStatus, maxGuests, confirmedGuests: savedConfirmedGuests, onSubmit }: Props) {
+  const savedStatus = ["Confirmado", "Tal vez", "Declinado"].includes(currentStatus)
+    ? currentStatus as AttendanceStatus
+    : "Confirmado"
+  const [status, setStatus] = useState<AttendanceStatus>(savedStatus)
+  const [confirmedGuests, setConfirmedGuests] = useState(savedConfirmedGuests ?? 0)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
@@ -24,57 +27,57 @@ export function AttendanceForm({ guestId, currentStatus, maxGuests, onSubmit }: 
     setSuccess(true)
   }
 
-  if (success && currentStatus === "Por Enviar") {
+  if (success) {
     return (
-      <div className="text-center py-6 px-4 bg-green-50 rounded-xl border border-green-200">
-        <svg className="w-10 h-10 text-green-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <p className="text-green-700 font-medium">Confirmación guardada</p>
-        <p className="text-green-600 text-sm mt-1">Gracias por confirmar tu asistencia.</p>
+      <div className="border border-[var(--sage)]/50 bg-[var(--sage)]/10 px-5 py-7 text-center">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Gracias</p>
+        <p className="font-display text-3xl text-[var(--foreground)]">Confirmación guardada</p>
+        <p className="mt-2 text-sm text-[var(--ink-muted)]">Nos alegra mucho compartir este día contigo.</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <h2 className="text-lg font-medium text-gray-800">¿Asistirás?</h2>
+    <form onSubmit={handleSubmit} className="space-y-7">
+      <div>
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">RSVP</p>
+        <h2 className="font-display text-3xl text-[var(--foreground)]">¿Nos acompañas?</h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Cuéntanos si podrás estar presente en este día tan especial.</p>
+      </div>
 
-      <div className="grid grid-cols-3 gap-3">
-        {(["Confirmado", "Tal vez", "Declinado"] as AttendanceStatus[]).map(
-          (option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setStatus(option)}
-              className={`py-3 px-4 rounded-xl text-sm font-medium transition-all border-2 ${
-                status === option
-                  ? option === "Confirmado"
-                    ? "border-green-400 bg-green-50 text-green-700"
-                    : option === "Tal vez"
-                      ? "border-yellow-400 bg-yellow-50 text-yellow-700"
-                      : "border-red-400 bg-red-50 text-red-700"
-                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
-              }`}
-            >
-              {option === "Confirmado" ? "Sí, voy!" : option === "Tal vez" ? "Tal vez" : "No puedo"}
-            </button>
-          )
-        )}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {(["Confirmado", "Tal vez", "Declinado"] as AttendanceStatus[]).map((option) => (
+          <button
+            key={option}
+            type="button"
+            onClick={() => setStatus(option)}
+            className={`border px-4 py-3 text-sm transition-all ${
+              status === option
+                ? option === "Confirmado"
+                  ? "border-[var(--sage-dark)] bg-[var(--sage)]/10 text-[var(--sage-dark)]"
+                  : option === "Tal vez"
+                    ? "border-[var(--clay)] bg-[var(--clay)]/10 text-[var(--clay)]"
+                    : "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--cream)]"
+                : "border-[var(--line)] bg-transparent text-[var(--ink-muted)] hover:border-[var(--sage-dark)]"
+            }`}
+          >
+            {option === "Confirmado" ? "Sí, voy" : option === "Tal vez" ? "Tal vez" : "No puedo"}
+          </button>
+        ))}
       </div>
 
       {status !== "Declinado" && maxGuests > 0 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            ¿Cuántos te acompañan? (máx. {maxGuests})
+          <label className="mb-2 block text-sm font-medium text-[var(--foreground)]">
+            Acompañantes <span className="font-normal text-[var(--ink-muted)]">(máximo {maxGuests})</span>
           </label>
           <input
             type="number"
             min={0}
             max={maxGuests}
             value={confirmedGuests}
-            onChange={(e) => setConfirmedGuests(parseInt(e.target.value) || 0)}
-            className="w-24 px-3 py-2 rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300"
+            onChange={(e) => setConfirmedGuests(Math.min(maxGuests, Math.max(0, parseInt(e.target.value) || 0)))}
+            className="w-24 border-b border-[var(--foreground)] bg-transparent px-2 py-2 text-center text-[var(--foreground)] focus:outline-none"
           />
         </div>
       )}
@@ -82,7 +85,7 @@ export function AttendanceForm({ guestId, currentStatus, maxGuests, onSubmit }: 
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 px-6 rounded-xl bg-rose-500 text-white font-medium hover:bg-rose-600 transition-colors disabled:opacity-50"
+        className="w-full border border-[var(--foreground)] bg-[var(--foreground)] px-6 py-3 text-sm font-medium tracking-wide text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
       >
         {loading ? "Guardando..." : "Confirmar asistencia"}
       </button>

@@ -10,7 +10,7 @@ interface Props {
 
 export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
   const presetAmounts = montosRegalo.length > 0 ? montosRegalo : [20000, 30000, 50000, 75000, 100000]
-  const [amount, setAmount] = useState<number>(presetAmounts[0])
+  const [amount, setAmount] = useState(presetAmounts[0])
   const [customAmount, setCustomAmount] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -18,10 +18,7 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
   async function handleGift() {
     setLoading(true)
     setError("")
-
-    const finalAmount = customAmount
-      ? parseInt(customAmount)
-      : amount
+    const finalAmount = customAmount ? parseInt(customAmount) : amount
 
     if (!finalAmount || finalAmount <= 0) {
       setError("Ingresa un monto válido")
@@ -35,48 +32,35 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ guestId, amount: finalAmount }),
       })
-
       const data = await res.json()
-
-      if (data.initPoint) {
-        window.location.href = data.initPoint
-      } else {
-        setError(data.error || "Error al crear el pago")
-      }
+      if (data.initPoint) window.location.href = data.initPoint
+      else setError(data.error || "Error al crear el pago")
     } catch {
       setError("Error de conexión")
     }
-
     setLoading(false)
   }
 
   const selectedAmount = customAmount ? parseInt(customAmount) : amount
 
   return (
-    <div className="space-y-5">
-      <div className="text-center">
-        <h2 className="text-lg font-medium text-gray-800 mb-1">
-          ¿Quieres hacernos un regalo?
-        </h2>
-        <p className="text-sm text-gray-500">
-          Tu cariño es el mejor regalo, pero si deseas aportar, aquí puedes hacerlo.
-        </p>
+    <div className="space-y-7">
+      <div>
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Con cariño</p>
+        <h2 className="font-display text-3xl text-[var(--foreground)]">Lista de regalos</h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Tu presencia es nuestro mejor regalo. Si deseas ayudarnos a comenzar esta nueva etapa, puedes hacerlo aquí.</p>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {presetAmounts.map((preset) => (
           <button
             key={preset}
             type="button"
-            onClick={() => {
-              setAmount(preset)
-              setCustomAmount("")
-              setError("")
-            }}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
+            onClick={() => { setAmount(preset); setCustomAmount(""); setError("") }}
+            className={`border px-4 py-3 text-sm transition-all ${
               !customAmount && amount === preset
-                ? "border-rose-400 bg-rose-50 text-rose-700"
-                : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                ? "border-[var(--sage-dark)] bg-[var(--sage)]/10 text-[var(--sage-dark)]"
+                : "border-[var(--line)] bg-transparent text-[var(--ink-muted)] hover:border-[var(--sage-dark)]"
             }`}
           >
             ${preset.toLocaleString("es-CL")}
@@ -84,61 +68,32 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2">
-        <span className="text-gray-400">$</span>
+      <div className="flex items-center justify-center gap-2 border-b border-[var(--line)] pb-2">
+        <span className="text-[var(--ink-muted)]">$</span>
         <input
           type="number"
           placeholder="Otro monto"
           value={customAmount}
-          onChange={(e) => {
-            setCustomAmount(e.target.value)
-            setError("")
-          }}
-          className="w-36 px-3 py-2 rounded-lg border border-gray-200 text-gray-800 text-center focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300"
+          onChange={(e) => { setCustomAmount(e.target.value); setError("") }}
+          className="w-36 bg-transparent px-3 py-2 text-center text-[var(--foreground)] focus:outline-none"
         />
       </div>
 
-      {selectedAmount > 0 && (
-        <p className="text-center text-sm text-gray-500">
-          Vas a regalar{" "}
-          <span className="font-medium text-rose-600">
-            ${selectedAmount.toLocaleString("es-CL")}
-          </span>
-        </p>
-      )}
-
-      {error && (
-        <p className="text-center text-sm text-red-500">{error}</p>
-      )}
+      {selectedAmount > 0 && <p className="text-center text-sm text-[var(--ink-muted)]">Vas a regalar <span className="font-medium text-[var(--clay)]">${selectedAmount.toLocaleString("es-CL")}</span></p>}
+      {error && <p className="text-center text-sm text-[var(--clay)]">{error}</p>}
 
       <button
         type="button"
         onClick={handleGift}
-          disabled={loading}
-        className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-rose-400 to-rose-500 text-white font-medium hover:from-rose-500 hover:to-rose-600 transition-all shadow-md shadow-rose-200 disabled:opacity-50"
+        disabled={loading}
+        className="w-full border border-[var(--foreground)] bg-[var(--foreground)] px-6 py-3 text-sm font-medium tracking-wide text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
       >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-            Redirigiendo a Mercado Pago...
-          </span>
-        ) : (
-          "Regalar con Mercado Pago"
-        )}
+        {loading ? "Redirigiendo a Mercado Pago..." : "Regalar con Mercado Pago"}
       </button>
 
       {currentGift !== null && currentGift > 0 && (
-        <div className="text-center py-3 px-4 bg-green-50 rounded-xl border border-green-200">
-          <p className="text-green-700 text-sm">
-            Ya realizaste un regalo de{" "}
-            <span className="font-medium">
-              ${currentGift.toLocaleString("es-CL")}
-            </span>
-            . ¡Muchas gracias!
-          </p>
+        <div className="border border-[var(--sage)]/50 bg-[var(--sage)]/10 px-4 py-3 text-center">
+          <p className="text-sm text-[var(--sage-dark)]">Ya realizaste un regalo de <span className="font-medium">${currentGift.toLocaleString("es-CL")}</span>. ¡Muchas gracias!</p>
         </div>
       )}
     </div>

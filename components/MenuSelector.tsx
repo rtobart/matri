@@ -20,19 +20,14 @@ interface Props {
 }
 
 export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
-  const [selected, setSelected] = useState<Set<string>>(
-    new Set(currentRestrictions)
-  )
+  const [selected, setSelected] = useState<Set<string>>(new Set(currentRestrictions))
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
   function toggle(option: string) {
     const next = new Set(selected)
-    if (next.has(option)) {
-      next.delete(option)
-    } else {
-      next.add(option)
-    }
+    if (next.has(option)) next.delete(option)
+    else next.add(option)
     setSelected(next)
   }
 
@@ -45,21 +40,23 @@ export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-medium text-gray-800">
-        Restricciones alimentarias
-      </h2>
+    <div className="space-y-6">
+      <div>
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Mesa</p>
+        <h2 className="font-display text-3xl text-[var(--foreground)]">Preferencias del menú</h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Selecciona cualquier restricción o preferencia que debamos considerar.</p>
+      </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {OPTIONS.map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => toggle(option)}
-            className={`px-3 py-1.5 rounded-full text-sm transition-all border ${
+            className={`border px-3 py-3 text-left text-sm transition-all ${
               selected.has(option)
-                ? "border-rose-300 bg-rose-50 text-rose-700"
-                : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                ? "border-[var(--sage-dark)] bg-[var(--sage)]/10 text-[var(--sage-dark)]"
+                : "border-[var(--line)] bg-transparent text-[var(--ink-muted)] hover:border-[var(--sage-dark)]"
             }`}
           >
             {option}
@@ -67,20 +64,16 @@ export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
         ))}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <button
           type="button"
           onClick={handleSave}
           disabled={loading}
-          className="py-2 px-5 rounded-lg bg-rose-500 text-white text-sm font-medium hover:bg-rose-600 transition-colors disabled:opacity-50"
+          className="border border-[var(--foreground)] bg-[var(--foreground)] px-5 py-2 text-sm font-medium text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
         >
           {loading ? "Guardando..." : "Guardar preferencias"}
         </button>
-        {success && (
-          <span className="text-sm text-green-600 font-medium">
-            Guardado
-          </span>
-        )}
+        {success && <span className="text-sm font-medium text-[var(--sage-dark)]">Guardado</span>}
       </div>
     </div>
   )
