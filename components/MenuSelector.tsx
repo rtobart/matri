@@ -10,8 +10,7 @@ const OPTIONS = [
   "Alergia a frutos secos",
   "Alergia a mariscos",
   "Alergia al huevo",
-  "Kosher",
-  "Halal",
+  "Ninguna"
 ]
 
 interface Props {
