@@ -64,7 +64,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
       </nav>
 
       <div className="mx-auto max-w-3xl">
-        <InvitationCard wedding={wedding} />
+         <InvitationCard wedding={wedding} showMessage />
         <div className="hairline" />
 
         <section className="py-20 text-center sm:py-28">

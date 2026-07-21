@@ -9,7 +9,7 @@ function formatDate(value: string | null) {
   })
 }
 
-export function InvitationCard({ wedding }: { wedding: WeddingData | null }) {
+export function InvitationCard({ wedding, showMessage = false }: { wedding: WeddingData | null; showMessage?: boolean }) {
   if (!wedding) {
     return (
       <div className="py-20 text-center text-[var(--ink-muted)]">
@@ -26,26 +26,60 @@ export function InvitationCard({ wedding }: { wedding: WeddingData | null }) {
 
       <div className="mb-7 flex items-center gap-5 text-[var(--clay)]">
         <span className="h-px w-16 bg-[var(--clay)]/50 sm:w-24" />
-        <svg aria-hidden="true" className="h-8 w-8" viewBox="0 0 48 48" fill="none">
-          <path d="M24 39S7 29.6 7 17.8C7 11.8 11.3 8 16.6 8c3.3 0 6 1.6 7.4 4.2C25.4 9.6 28.1 8 31.4 8 36.7 8 41 11.8 41 17.8 41 29.6 24 39 24 39Z" stroke="currentColor" strokeWidth="1.3" />
-          <path d="M24 12v22M17 20c2.1 1.2 4.4 1.5 7 1M31 20c-2.1 1.2-4.4 1.5-7 1" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-        </svg>
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay)]" />
         <span className="h-px w-16 bg-[var(--clay)]/50 sm:w-24" />
       </div>
 
-      <h1 className="font-display text-[clamp(3.6rem,12vw,7.8rem)] font-normal leading-[0.82] tracking-[-0.065em] text-[var(--foreground)]">
+      <h1 className="font-display text-[clamp(3rem,8vw,4rem)] font-normal leading-[0.9] tracking-[-0.055em] text-[var(--foreground)]">
         {wedding.nombreNovia}
         <span className="my-4 block text-[clamp(1.5rem,4vw,2.5rem)] italic tracking-normal text-[var(--clay)]">&amp;</span>
         {wedding.nombreNovio}
       </h1>
 
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.26em] text-[var(--ink-muted)]">
+      <div className="mt-6 flex w-full justify-center sm:mt-8">
+        {/* La ilustración conserva su transparencia para integrarse con el fondo del Hero. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/novios-lineart-cropped.png"
+          alt="Ilustración lineal de los novios"
+          className="h-auto w-[min(82vw,22rem)] object-contain mix-blend-multiply sm:w-[min(58vw,26rem)]"
+        />
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.26em] text-[var(--ink-muted)] sm:mt-6">
         <span>{formatDate(wedding.fecha)}</span>
         <span className="text-[var(--clay)]">·</span>
         <span>{wedding.hora}</span>
         <span className="text-[var(--clay)]">·</span>
         <span>{wedding.lugar}</span>
       </div>
+
+      {wedding.direccion && (
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-[var(--ink-muted)]">
+          <span>{wedding.direccion}</span>
+          {wedding.urlMapa && (
+            <a
+              href={wedding.urlMapa}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Abrir ubicación en el mapa"
+              className="inline-flex items-center gap-1.5 text-[var(--sage-dark)] transition-colors hover:text-[var(--clay)]"
+            >
+              <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em]">Ver mapa</span>
+            </a>
+          )}
+        </div>
+      )}
+
+      {showMessage && wedding.mensaje && (
+        <p className="mx-auto mt-12 max-w-xl font-display text-xl italic leading-relaxed text-[var(--ink-muted)] sm:text-2xl">
+          {wedding.mensaje}
+        </p>
+      )}
 
       {wedding.fotoPortada ? (
         <div className="mt-14 h-52 w-36 overflow-hidden rounded-[7rem] border border-[var(--sage)]/60 p-2 sm:h-64 sm:w-44">
