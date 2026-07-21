@@ -1,14 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f5ef;
-  --foreground: #252923;
-  --ink-muted: #6c7167;
-  --line: #d9d8cd;
-  --sage: #8b9b83;
-  --sage-dark: #61705b;
-  --clay: #b97663;
-  --cream: #fbfaf6;
+  /* Peach Sunset: warm, muted tones inspired by golden hour. */
+  --peach: #f8e4d6;
+  --apricot: #f2c5a5;
+  --golden-hour: #d99a5b;
+  --copper: #a85f48;
+  --brown-dark: #2a2421;
+  --brown-muted: #755f55;
+  --peach-line: #e6cfc0;
+
+  --background: var(--peach);
+  --foreground: var(--brown-dark);
+  --ink-muted: var(--brown-muted);
+  --line: var(--peach-line);
+  --sage: var(--apricot);
+  --sage-dark: var(--copper);
+  --clay: var(--golden-hour);
+  --cream: #fff8f3;
 }
 
 @theme inline {
@@ -25,8 +34,8 @@ body {
 }
 
 ::selection {
-  background: #cfd8c8;
-  color: #252923;
+  background: var(--apricot);
+  color: var(--brown-dark);
 }
 
 .font-display {
@@ -35,8 +44,8 @@ body {
 
 .invitation-shell {
   background:
-    radial-gradient(circle at 12% 8%, rgb(139 155 131 / 0.12), transparent 23rem),
-    radial-gradient(circle at 90% 32%, rgb(185 118 99 / 0.08), transparent 25rem),
+    radial-gradient(circle at 12% 8%, rgb(242 197 165 / 0.34), transparent 23rem),
+    radial-gradient(circle at 90% 32%, rgb(217 154 91 / 0.12), transparent 25rem),
     var(--background);
 }
 
