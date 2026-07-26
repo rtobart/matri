@@ -14,6 +14,7 @@ export async function createPreference(
   const preference = new Preference(client)
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000"
+  const isSandbox = process.env.MERCADOPAGO_SANDBOX === "true"
   const isPublic = baseUrl.startsWith("https://")
 
   const result = await preference.create({
@@ -40,5 +41,5 @@ export async function createPreference(
   })
 
   // En desarrollo usar sandbox_init_point, en producción init_point
-  return isPublic ? result.init_point : result.sandbox_init_point
+  return isSandbox ? result.sandbox_init_point : result.init_point
 }
