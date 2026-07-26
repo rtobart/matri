@@ -138,7 +138,7 @@ export async function getWeddingInfo(): Promise<WeddingData | null> {
           Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
           "Notion-Version": "2022-06-28",
         },
-        next: { revalidate: 3600 },
+        next: { revalidate: 60 },
       }
     )
 
