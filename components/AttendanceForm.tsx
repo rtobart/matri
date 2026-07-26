@@ -111,7 +111,7 @@ export function AttendanceForm({
       {status !== "Declinado" && maxGuests > 0 && (
         <div className="space-y-3">
           <label className="block text-sm font-medium text-[var(--foreground)]">
-            Acompañantes <span className="font-normal text-[var(--ink-muted)]">(máximo {maxGuests})</span>
+            Acompañantes
           </label>
 
           {useNameMode ? (

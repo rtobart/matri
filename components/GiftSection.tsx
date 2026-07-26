@@ -104,7 +104,7 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
         disabled={loading}
         className="w-full border border-[var(--foreground)] bg-[var(--foreground)] px-6 py-3 text-sm font-medium tracking-wide text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
       >
-        {loading ? "Redirigiendo a Mercado Pago..." : "Regalar con Mercado Pago"}
+        {loading ? "Redirigiendo a Mercado Pago..." : "Regalar"}
       </button>
 
       {currentGift !== null && currentGift > 0 && (
