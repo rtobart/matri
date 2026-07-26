@@ -14,14 +14,16 @@ export async function createPreference(
   const preference = new Preference(client)
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000"
+  // Sandbox: explícito o por defecto en desarrollo (no en producción)
   const isSandbox = process.env.MERCADOPAGO_SANDBOX === "true"
+    || (process.env.MERCADOPAGO_SANDBOX !== "false" && process.env.NODE_ENV !== "production")
   const isPublic = baseUrl.startsWith("https://")
 
   const result = await preference.create({
     body: {
       items: [
         {
-          id: `regalo-${guestId}`,
+          id: "regalo",
           title: "Regalo de matrimonio",
           quantity: 1,
           unit_price: amount,
@@ -29,6 +31,13 @@ export async function createPreference(
         },
       ],
       external_reference: guestId,
+      ...(isSandbox && { binary_mode: true }),
+      payment_methods: {
+        excluded_payment_methods: [],
+        excluded_payment_types: [],
+        installments: 12,
+        default_installments: 1,
+      },
       ...(isPublic && {
         back_urls: {
           success: `${baseUrl}/invitacion/${guestId}?pago=exito`,
