@@ -21,10 +21,17 @@ export async function PUT(request: NextRequest) {
     )
   }
 
+  const confirmedNames = Array.isArray(body.confirmedCompanionNames)
+    ? body.confirmedCompanionNames
+    : undefined
+
+  // Si vienen nombres, el count se deriva de ellos; si no, usar el número directo
   const confirmed =
-    typeof body.confirmedGuests === "number" && body.confirmedGuests >= 0
-      ? Math.floor(body.confirmedGuests)
-      : 0
+    confirmedNames !== undefined
+      ? confirmedNames.length
+      : typeof body.confirmedGuests === "number" && body.confirmedGuests >= 0
+        ? Math.floor(body.confirmedGuests)
+        : 0
 
   const restrictions = Array.isArray(body.dietaryRestrictions)
     ? body.dietaryRestrictions
@@ -33,6 +40,7 @@ export async function PUT(request: NextRequest) {
   await updateGuest(body.guestId, {
     status: body.status,
     confirmedGuests: confirmed,
+    confirmedCompanionNames: confirmedNames,
     dietaryRestrictions: restrictions,
   })
 

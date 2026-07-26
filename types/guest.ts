@@ -12,6 +12,7 @@ export interface GuestData {
   maxGuests: number
   confirmedGuests: number | null
   companionNames: string[]
+  confirmedCompanionNames: string[]
   dietaryRestrictions: string[]
   gift: number | null
 }
@@ -23,7 +24,9 @@ export interface WeddingData {
   hora: string
   lugar: string
   direccion: string
-  dressCode: string
+  vestimenta: string
+  alojamientoTransporte: string
+  horarios: string
   mensaje: string
   urlMapa: string | null
   fotoPortada: string | null
@@ -42,4 +45,5 @@ export interface ConfirmBody {
   status: AttendanceStatus
   confirmedGuests: number
   dietaryRestrictions: string[]
+  confirmedCompanionNames?: string[]
 }

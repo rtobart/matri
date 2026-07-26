@@ -97,7 +97,6 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
         </div>
       )}
 
-      {wedding.dressCode && <p className="mt-10 text-xs uppercase tracking-[0.28em] text-[var(--ink-muted)]">Vestimenta · {wedding.dressCode}</p>}
     </section>
   )
 }

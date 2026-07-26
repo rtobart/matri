@@ -95,6 +95,10 @@ export async function getGuest(id: string): Promise<GuestData | null> {
       maxGuests: extractNumber(props["Número de acompañantes"]) ?? 0,
       confirmedGuests: extractNumber(props["acompañantes confirmados"]),
       companionNames: await getComments(response.id),
+      confirmedCompanionNames: extractRichText(props["Quiénes vienen"])
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
       dietaryRestrictions: extractMultiSelect(props["Restricciones alimentarias"]),
       gift: extractNumber(props["Regalo"]),
     }
@@ -158,7 +162,9 @@ export async function getWeddingInfo(): Promise<WeddingData | null> {
       hora: extractRichText(props["Hora"]),
       lugar: extractRichText(props["Lugar"]),
       direccion: extractRichText(props["Dirección"]),
-      dressCode: extractRichText(props["Dress Code"]),
+      vestimenta: extractRichText(props["Vestimenta"]),
+      alojamientoTransporte: extractRichText(props["Alojamiento y transporte"]),
+      horarios: extractRichText(props["Horarios"]),
       mensaje: extractRichText(props["Mensaje"]),
       urlMapa: extractUrl(props["URL Mapa"]),
       fotoPortada: extractUrl(props["Foto Portada"]),
@@ -174,6 +180,7 @@ export async function updateGuest(
   data: {
     status?: string
     confirmedGuests?: number
+    confirmedCompanionNames?: string[]
     dietaryRestrictions?: string[]
     gift?: number
   }
@@ -192,6 +199,12 @@ export async function updateGuest(
   if (data.dietaryRestrictions !== undefined) {
     properties["Restricciones alimentarias"] = {
       multi_select: data.dietaryRestrictions.map((name) => ({ name })),
+    }
+  }
+
+  if (data.confirmedCompanionNames !== undefined) {
+    properties["Quiénes vienen"] = {
+      rich_text: [{ type: "text", text: { content: data.confirmedCompanionNames.join(", ") } }],
     }
   }
 
@@ -256,6 +269,7 @@ export async function listAllGuests(): Promise<GuestData[]> {
         maxGuests: extractNumber(props["Número de acompañantes"]) ?? 0,
         confirmedGuests: extractNumber(props["acompañantes confirmados"]),
         companionNames: [],
+        confirmedCompanionNames: [],
         dietaryRestrictions: extractMultiSelect(props["Restricciones alimentarias"]),
         gift: extractNumber(props["Regalo"]),
       })

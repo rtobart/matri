@@ -52,7 +52,7 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
 
   return (
     <div className="space-y-7">
-      <div>
+      <div className="text-center">
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Con cariño</p>
         <h2 className="font-display text-3xl text-[var(--foreground)]">Lista de regalos</h2>
         <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Tu presencia es nuestro mejor regalo. Si deseas ayudarnos a comenzar esta nueva etapa, puedes hacerlo aquí.</p>

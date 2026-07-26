@@ -40,7 +40,7 @@ export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="text-center">
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Mesa</p>
         <h2 className="font-display text-3xl text-[var(--foreground)]">Preferencias del menú</h2>
         <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Selecciona cualquier restricción o preferencia que debamos considerar.</p>

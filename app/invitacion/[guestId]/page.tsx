@@ -2,6 +2,7 @@ import { InvitationCard } from "@/components/InvitationCard"
 import { MenuSelector } from "@/components/MenuSelector"
 import { GiftSection } from "@/components/GiftSection"
 import ConfirmClient from "./ConfirmClient"
+import NavBar from "./NavBar"
 import type { AttendanceStatus } from "@/types/guest"
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000"
@@ -29,7 +30,11 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
 
   const { guest, wedding } = data
 
-  async function confirmAttendance(formData: { status: AttendanceStatus; confirmedGuests: number; dietaryRestrictions?: string[] }): Promise<void> {
+  async function confirmAttendance(formData: {
+    status: AttendanceStatus
+    confirmedGuests: number
+    confirmedCompanionNames?: string[]
+  }): Promise<void> {
     "use server"
     await fetch(`${BASE_URL}/api/confirm`, {
       method: "PUT",
@@ -53,21 +58,41 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
   }
 
   return (
-    <main className="invitation-shell min-h-screen px-5 sm:px-8">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between border-b border-[var(--line)] py-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--ink-muted)]">
-        <a href="#inicio" className="font-display text-lg normal-case tracking-normal text-[var(--foreground)]">N &amp; R</a>
-        <div className="hidden gap-6 sm:flex">
-          <a href="#rsvp" className="transition-colors hover:text-[var(--sage-dark)]">RSVP</a>
-          <a href="#menu" className="transition-colors hover:text-[var(--sage-dark)]">Menú</a>
-          <a href="#regalos" className="transition-colors hover:text-[var(--sage-dark)]">Regalos</a>
-        </div>
-      </nav>
+    <main className="invitation-shell min-h-screen">
+      <NavBar />
 
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-3xl px-5 sm:px-8">
          <InvitationCard wedding={wedding} showMessage />
         <div className="hairline" />
 
-        <section className="py-20 text-center sm:py-28">
+        {[
+          { label: "Vestimenta", value: wedding?.vestimenta },
+          { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
+          { label: "Horarios", value: wedding?.horarios },
+        ].some((d) => d.value) && (
+          <section id="detalles" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
+            <div className="space-y-7 text-center">
+              <div>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Info</p>
+                <h2 className="font-display text-3xl text-[var(--foreground)]">Más detalles</h2>
+              </div>
+              <div className="space-y-8">
+                {[
+                  { label: "Vestimenta", value: wedding?.vestimenta },
+                  { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
+                  { label: "Horarios", value: wedding?.horarios },
+                ].filter((d) => d.value).map((d) => (
+                  <div key={d.label}>
+                    <h3 className="font-display text-xl text-[var(--foreground)]">{d.label}</h3>
+                    <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">{d.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <section className="border-t border-[var(--line)] py-20 text-center sm:py-28">
           <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Una invitación para</p>
           {guest.name && <h2 className="font-display text-4xl text-[var(--foreground)] sm:text-5xl">{guest.name}</h2>}
           {guest.companionNames.length > 0 && (
@@ -79,7 +104,15 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
         </section>
 
         <section id="rsvp" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
-          <ConfirmClient currentStatus={guest.status} maxGuests={guest.maxGuests} confirmedGuests={guest.confirmedGuests} confirmAttendance={confirmAttendance} />
+          <ConfirmClient
+            currentStatus={guest.status}
+            maxGuests={guest.maxGuests}
+            confirmedGuests={guest.confirmedGuests}
+            guestName={guest.name}
+            companionNames={guest.companionNames}
+            confirmedCompanionNames={guest.confirmedCompanionNames}
+            confirmAttendance={confirmAttendance}
+          />
         </section>
 
         {guest.status !== "Declinado" && (
