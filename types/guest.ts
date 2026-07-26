@@ -1,3 +1,8 @@
+export interface GiftOption {
+  amount: number
+  label: string
+}
+
 export interface GuestData {
   id: string
   name: string
@@ -22,7 +27,7 @@ export interface WeddingData {
   mensaje: string
   urlMapa: string | null
   fotoPortada: string | null
-  montosRegalo: number[]
+  montosRegalo: GiftOption[]
 }
 
 export interface GuestPageData {

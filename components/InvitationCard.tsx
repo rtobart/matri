@@ -36,7 +36,7 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
         {wedding.nombreNovio}
       </h1>
 
-      <div className="mt-6 flex w-full justify-center sm:mt-8">
+      <div className=" flex w-full justify-center sm:mt-8">
         {/* La ilustración conserva su transparencia para integrarse con el fondo del Hero. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

@@ -2,7 +2,7 @@ import { Client } from "@notionhq/client"
 import type {
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints/common"
-import type { GuestData, WeddingData } from "@/types/guest"
+import type { GuestData, WeddingData, GiftOption } from "@/types/guest"
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN })
 const WEDDING_PAGE = process.env.NOTION_WEDDING_PAGE_ID!
@@ -103,11 +103,30 @@ export async function getGuest(id: string): Promise<GuestData | null> {
   }
 }
 
-function parseMontos(text: string): number[] {
-  return text
-    .split(/[,;]/)
-    .map((s) => parseInt(s.trim()))
-    .filter((n) => !isNaN(n) && n > 0)
+// Cualquier comilla recta o tipográfica: " " " '
+const QUOTE = /["\u201C\u201D\u2018\u2019]/
+
+function parseGiftOptions(text: string): GiftOption[] {
+  const options: GiftOption[] = []
+  const segments = text.split(";")
+  for (const seg of segments) {
+    const trimmed = seg.trim()
+    const commaIdx = trimmed.indexOf(",")
+    if (commaIdx > 0) {
+      const amount = parseInt(trimmed.slice(0, commaIdx))
+      const rest = trimmed.slice(commaIdx + 1).trim()
+      // quitar comillas de apertura y cierre de cualquier tipo
+      const label = rest.replace(new RegExp(`^${QUOTE.source}+|${QUOTE.source}+$`, "gu"), "").trim()
+      if (!isNaN(amount) && amount > 0 && label) {
+        options.push({ amount, label })
+        continue
+      }
+    }
+    // fallback: solo numero sin etiqueta
+    const n = parseInt(trimmed)
+    if (!isNaN(n) && n > 0) options.push({ amount: n, label: `$${n.toLocaleString("es-CL")}` })
+  }
+  return options
 }
 
 export async function getWeddingInfo(): Promise<WeddingData | null> {
@@ -143,7 +162,7 @@ export async function getWeddingInfo(): Promise<WeddingData | null> {
       mensaje: extractRichText(props["Mensaje"]),
       urlMapa: extractUrl(props["URL Mapa"]),
       fotoPortada: extractUrl(props["Foto Portada"]),
-      montosRegalo: parseMontos(extractRichText(props["Montos Regalo"])),
+      montosRegalo: parseGiftOptions(extractRichText(props["Montos Regalo"])),
     }
   } catch {
     return null

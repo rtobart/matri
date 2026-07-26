@@ -1,16 +1,23 @@
 "use client"
 
 import { useState } from "react"
+import type { GiftOption } from "@/types/guest"
 
 interface Props {
   guestId: string
   currentGift: number | null
-  montosRegalo: number[]
+  montosRegalo: GiftOption[]
 }
 
+const DEFAULT_OPTIONS: GiftOption[] = [
+  { amount: 20000, label: "Un detalle especial" },
+  { amount: 50000, label: "Un momento memorable" },
+  { amount: 100000, label: "Una aventura juntos" },
+]
+
 export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
-  const presetAmounts = montosRegalo.length > 0 ? montosRegalo : [20000, 30000, 50000, 75000, 100000]
-  const [amount, setAmount] = useState(presetAmounts[0])
+  const presetOptions = montosRegalo.length > 0 ? montosRegalo : DEFAULT_OPTIONS
+  const [amount, setAmount] = useState(presetOptions[0].amount)
   const [customAmount, setCustomAmount] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -51,19 +58,28 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
         <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Tu presencia es nuestro mejor regalo. Si deseas ayudarnos a comenzar esta nueva etapa, puedes hacerlo aquí.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {presetAmounts.map((preset) => (
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        {presetOptions.map((preset) => (
           <button
-            key={preset}
+            key={preset.amount}
             type="button"
-            onClick={() => { setAmount(preset); setCustomAmount(""); setError("") }}
-            className={`border px-4 py-3 text-sm transition-all ${
-              !customAmount && amount === preset
-                ? "border-[var(--sage-dark)] bg-[var(--sage)]/10 text-[var(--sage-dark)]"
-                : "border-[var(--line)] bg-transparent text-[var(--ink-muted)] hover:border-[var(--sage-dark)]"
+            onClick={() => { setAmount(preset.amount); setCustomAmount(""); setError("") }}
+            className={`flex flex-col items-center border px-4 py-4 text-center transition-all ${
+              !customAmount && amount === preset.amount
+                ? "border-[var(--sage-dark)] bg-[var(--sage)]/10"
+                : "border-[var(--line)] bg-transparent hover:border-[var(--sage-dark)]"
             }`}
           >
-            ${preset.toLocaleString("es-CL")}
+            <span className={`text-sm leading-snug ${
+              !customAmount && amount === preset.amount
+                ? "text-[var(--sage-dark)]"
+                : "text-[var(--foreground)]"
+            }`}>
+              {preset.label}
+            </span>
+            <span className="mt-1 text-xs text-[var(--ink-muted)]">
+              ${preset.amount.toLocaleString("es-CL")}
+            </span>
           </button>
         ))}
       </div>
