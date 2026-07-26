@@ -3,19 +3,19 @@ import { createHmac } from "crypto"
 import { MercadoPagoConfig, Payment } from "mercadopago"
 import { updateGuestGift } from "@/lib/notion"
 
-function verifySignature(payload: string, signature: string): boolean {
-  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET
-  if (!secret || !signature) return false
-  const expected = createHmac("sha256", secret).update(payload).digest("hex")
-  return signature === expected
-}
-
 export async function POST(request: NextRequest) {
   const rawBody = await request.text()
-  const signature = request.headers.get("x-signature") || ""
 
-  if (!verifySignature(rawBody, signature)) {
-    return NextResponse.json({ error: "Firma inválida" }, { status: 401 })
+  // Verificar firma si el secret está configurado
+  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET
+  if (secret) {
+    const signature = request.headers.get("x-signature") || ""
+    if (signature) {
+      const expected = createHmac("sha256", secret).update(rawBody).digest("hex")
+      if (signature !== expected) {
+        return NextResponse.json({ error: "Firma inválida" }, { status: 401 })
+      }
+    }
   }
 
   const body = JSON.parse(rawBody)
@@ -48,7 +48,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true })
-  } catch {
+  } catch (error) {
+    console.error("[webhook] Error:", error)
     return NextResponse.json(
       { error: "Error al procesar el webhook" },
       { status: 500 }
