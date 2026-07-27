@@ -3,6 +3,7 @@ import { MenuSelector } from "@/components/MenuSelector"
 import { GiftSection } from "@/components/GiftSection"
 import ConfirmClient from "./ConfirmClient"
 import NavBar from "./NavBar"
+import { RevealObserver } from "@/components/RevealObserver"
 import type { AttendanceStatus } from "@/types/guest"
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000"
@@ -60,12 +61,13 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
   return (
     <main className="invitation-shell min-h-screen">
       <NavBar />
+      <RevealObserver />
 
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
          <InvitationCard wedding={wedding} showMessage />
         <div className="hairline" />
 
-        <section className="border-t border-[var(--line)] py-20 text-center sm:py-28">
+        <section className="section-reveal data-reveal js-reveal-hidden border-t border-[var(--line)] py-20 text-center sm:py-28">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/letter-icon.svg" alt="" className="mx-auto mb-4 h-32 w-auto opacity-70" />
           <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Una invitación para</p>
@@ -83,7 +85,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
           { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
           { label: "Horarios", value: wedding?.horarios },
         ].some((d) => d.value) && (
-          <section id="detalles" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
+          <section id="detalles" className="section-reveal scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
             <div className="space-y-7 text-center">
               <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -107,7 +109,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
           </section>
         )}
 
-        <section id="rsvp" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
+        <section id="rsvp" className="section-reveal scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
           <ConfirmClient
             currentStatus={guest.status}
             maxGuests={guest.maxGuests}
@@ -120,12 +122,12 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
         </section>
 
         {guest.status !== "Declinado" && (
-          <section id="menu" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
+          <section id="menu" className="section-reveal scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
             <MenuSelectorClient currentRestrictions={guest.dietaryRestrictions} saveRestrictions={saveRestrictions} />
           </section>
         )}
 
-        <section id="regalos" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
+        <section id="regalos" className="section-reveal scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
           <GiftSection guestId={guestId} currentGift={guest.gift} montosRegalo={wedding?.montosRegalo ?? []} />
         </section>
 

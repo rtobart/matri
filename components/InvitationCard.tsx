@@ -19,7 +19,7 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
   }
 
   return (
-    <section id="inicio" className="relative flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center py-20 text-center">
+    <section id="inicio" className="animate-reveal relative flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center py-20 text-center">
       <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.42em] text-[var(--sage-dark)]">
         ¡Nos casamos!
       </p>
