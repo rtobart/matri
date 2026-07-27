@@ -41,6 +41,8 @@ export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
   return (
     <div className="space-y-6">
       <div className="text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/food.svg" alt="" className="mx-auto -mt-16 -mb-16 h-56 w-auto opacity-70" />
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Mesa</p>
         <h2 className="font-display text-3xl text-[var(--foreground)]">Preferencias del menú</h2>
         <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Selecciona cualquier restricción o preferencia que debamos considerar.</p>
@@ -63,16 +65,16 @@ export function MenuSelector({ currentRestrictions, onSubmit }: Props) {
         ))}
       </div>
 
-      <div className="flex items-center gap-4">
+      <div>
         <button
           type="button"
           onClick={handleSave}
           disabled={loading}
-          className="border border-[var(--foreground)] bg-[var(--foreground)] px-5 py-2 text-sm font-medium text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
+          className="w-full border border-[var(--foreground)] bg-[var(--foreground)] px-6 py-3 text-sm font-medium tracking-wide text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
         >
           {loading ? "Guardando..." : "Guardar preferencias"}
         </button>
-        {success && <span className="text-sm font-medium text-[var(--sage-dark)]">Guardado</span>}
+        {success && <p className="mt-2 text-center text-sm font-medium text-[var(--sage-dark)]">Guardado</p>}
       </div>
     </div>
   )

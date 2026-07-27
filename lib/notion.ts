@@ -158,7 +158,7 @@ export async function getWeddingInfo(): Promise<WeddingData | null> {
     return {
       nombreNovio: extractRichText(props["Nombre Novio"]),
       nombreNovia: extractRichText(props["Nombre Novia"]),
-      fecha: extractDate(props["Fecha"]),
+      fecha: extractRichText(props["Fecha"]),
       hora: extractRichText(props["Hora"]),
       lugar: extractRichText(props["Lugar"]),
       direccion: extractRichText(props["Dirección"]),

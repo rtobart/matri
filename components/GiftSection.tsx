@@ -53,9 +53,11 @@ export function GiftSection({ guestId, currentGift, montosRegalo }: Props) {
   return (
     <div className="space-y-7">
       <div className="text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/car.svg" alt="" className="mx-auto -mt-16 mb-2 h-56 w-auto opacity-70" />
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Con cariño</p>
         <h2 className="font-display text-3xl text-[var(--foreground)]">Lista de regalos</h2>
-        <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">Tu presencia es nuestro mejor regalo. Si deseas ayudarnos a comenzar esta nueva etapa, puedes hacerlo aquí.</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink-muted)]">El mejor regalo es compartir este momento contigo. Si deseas hacernos un obsequio para acompañarnos en el inicio de esta nueva etapa, puedes hacerlo aquí. Tu aporte será un lindo impulso para continuar nuestra aventura.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">

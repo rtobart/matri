@@ -73,6 +73,8 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
           <section id="detalles" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
             <div className="space-y-7 text-center">
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/glases.svg" alt="" className="mx-auto mb-4 h-28 w-auto opacity-70" />
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Info</p>
                 <h2 className="font-display text-3xl text-[var(--foreground)]">Más detalles</h2>
               </div>
@@ -93,11 +95,13 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
         )}
 
         <section className="border-t border-[var(--line)] py-20 text-center sm:py-28">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/letter-icon.svg" alt="" className="mx-auto mb-4 h-32 w-auto opacity-70" />
           <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Una invitación para</p>
           {guest.name && <h2 className="font-display text-4xl text-[var(--foreground)] sm:text-5xl">{guest.name}</h2>}
           {guest.companionNames.length > 0 && (
             <div className="mx-auto mt-8 max-w-md">
-              <p className="text-sm text-[var(--ink-muted)]">Y para tu acompañante{guest.companionNames.length > 1 ? "s" : ""}</p>
+              <p className="text-sm text-[var(--ink-muted)]">Y para tu{guest.companionNames.length > 1 ? "s" : ""} acompañante{guest.companionNames.length > 1 ? "s" : ""}</p>
               <p className="mt-3 text-sm text-[var(--clay)]">{guest.companionNames.join(" | ")}</p>
             </div>
           )}
@@ -125,7 +129,12 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
           <GiftSection guestId={guestId} currentGift={guest.gift} montosRegalo={wedding?.montosRegalo ?? []} />
         </section>
 
-        <footer className="border-t border-[var(--line)] py-12 text-center text-[10px] uppercase tracking-[0.3em] text-[var(--ink-muted)]">Con amor, Natalia &amp; Robinson</footer>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="mx-auto mt-8 mb-24 max-w-xs text-center">
+          <img src="/us.png" alt="Natalia y Robinson" className="w-full object-contain" />
+        </div>
+
+        <footer className="border-t border-[var(--line)] py-12 text-center text-[10px] uppercase tracking-[0.3em] text-[var(--ink-muted)]">Con cariño, Natalia &amp; Robinson</footer>
       </div>
     </main>
   )

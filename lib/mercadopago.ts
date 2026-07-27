@@ -25,6 +25,7 @@ export async function createPreference(
         {
           id: "regalo",
           title: "Regalo de matrimonio",
+          description: "Aporte para los novios",
           quantity: 1,
           unit_price: amount,
           currency_id: "CLP",

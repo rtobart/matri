@@ -21,7 +21,7 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
   return (
     <section id="inicio" className="relative flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center py-20 text-center">
       <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.42em] text-[var(--sage-dark)]">
-        Nuestra celebración
+        ¡Nos casamos!
       </p>
 
       <div className="mb-7 flex items-center gap-5 text-[var(--clay)]">
@@ -40,23 +40,19 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
         {/* La ilustración conserva su transparencia para integrarse con el fondo del Hero. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/novios-lineart-cropped.png"
-          alt="Ilustración lineal de los novios"
+          src="/novios.svg"
+          alt="Ilustración de los novios"
           className="h-auto w-[min(82vw,22rem)] object-contain mix-blend-multiply sm:w-[min(58vw,26rem)]"
         />
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.26em] text-[var(--ink-muted)] sm:mt-6">
-        <span>{formatDate(wedding.fecha)}</span>
-        <span className="text-[var(--clay)]">·</span>
-        <span>{wedding.hora}</span>
-        <span className="text-[var(--clay)]">·</span>
-        <span>{wedding.lugar}</span>
-      </div>
-
+      {showMessage && wedding.mensaje && (
+        <p className="mx-auto mt-12 max-w-xl font-display text-xl italic leading-relaxed text-[var(--ink-muted)] sm:text-2xl">
+          {wedding.mensaje}
+        </p>
+      )}
       {wedding.direccion && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-[var(--ink-muted)]">
-          <span>{wedding.direccion}</span>
           {wedding.urlMapa && (
             <a
               href={wedding.urlMapa}
@@ -75,11 +71,6 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
         </div>
       )}
 
-      {showMessage && wedding.mensaje && (
-        <p className="mx-auto mt-12 max-w-xl font-display text-xl italic leading-relaxed text-[var(--ink-muted)] sm:text-2xl">
-          {wedding.mensaje}
-        </p>
-      )}
 
       {wedding.fotoPortada ? (
         <div className="mt-14 h-52 w-36 overflow-hidden rounded-[7rem] border border-[var(--sage)]/60 p-2 sm:h-64 sm:w-44">

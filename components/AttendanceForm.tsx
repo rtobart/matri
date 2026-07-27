@@ -111,7 +111,7 @@ export function AttendanceForm({
       {status !== "Declinado" && maxGuests > 0 && (
         <div className="space-y-3">
           <label className="block text-sm font-medium text-[var(--foreground)]">
-            Acompañantes
+            Asistirán:
           </label>
 
           {useNameMode ? (
@@ -157,8 +157,9 @@ export function AttendanceForm({
         disabled={loading}
         className="w-full border border-[var(--foreground)] bg-[var(--foreground)] px-6 py-3 text-sm font-medium tracking-wide text-[var(--cream)] transition-colors hover:bg-[var(--sage-dark)] disabled:opacity-50"
       >
-        {loading ? "Guardando..." : "Confirmar asistencia"}
+        {loading ? "Guardando..." : "Guardar"}
       </button>
+      <p className="mt-2 text-sm text-[var(--ink-muted)]">*Puedes modificar tu respuesta hasta el 05/12/26.</p>
     </form>
   )
 }
