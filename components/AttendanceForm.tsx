@@ -109,7 +109,7 @@ export function AttendanceForm({
       </div>
 
       {status !== "Declinado" && maxGuests > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 text-center">
           <label className="block text-sm font-medium text-[var(--foreground)]">
             Asistirán:
           </label>
@@ -121,7 +121,7 @@ export function AttendanceForm({
                   key={name}
                   type="button"
                   onClick={() => toggleName(name)}
-                  className={`border px-3 py-3 text-left text-sm transition-all ${
+                  className={`border px-3 py-3 text-center text-sm transition-all ${
                     selectedNames.has(name)
                       ? "border-[var(--sage-dark)] bg-[var(--sage)]/10 text-[var(--sage-dark)]"
                       : "border-[var(--line)] bg-transparent text-[var(--ink-muted)] hover:border-[var(--sage-dark)]"
@@ -132,7 +132,7 @@ export function AttendanceForm({
               ))}
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="flex justify-center gap-2">
               {Array.from({ length: maxGuests + 1 }, (_, i) => i).map((n) => (
                 <button
                   key={n}
