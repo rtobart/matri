@@ -82,7 +82,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
 
         {[
           { label: "Vestimenta", value: wedding?.vestimenta },
-          { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
+          { label: "Transporte", value: wedding?.alojamientoTransporte },
           { label: "Horarios", value: wedding?.horarios },
         ].some((d) => d.value) && (
           <section id="detalles" className="section-reveal scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
@@ -96,7 +96,7 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
               <div className="space-y-8">
                 {[
                   { label: "Vestimenta", value: wedding?.vestimenta },
-                  { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
+                  { label: "Transporte", value: wedding?.alojamientoTransporte },
                   { label: "Horarios", value: wedding?.horarios },
                 ].filter((d) => d.value).map((d) => (
                   <div key={d.label}>
