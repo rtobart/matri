@@ -25,12 +25,12 @@ export async function PUT(request: NextRequest) {
     ? body.confirmedCompanionNames
     : undefined
 
-  // Si vienen nombres, el count se deriva de ellos; si no, usar el número directo
+  // confirmedGuests siempre = total de personas (invitado + acompañantes)
   const confirmed =
     confirmedNames !== undefined
       ? confirmedNames.length
       : typeof body.confirmedGuests === "number" && body.confirmedGuests >= 0
-        ? Math.floor(body.confirmedGuests)
+        ? 1 + Math.floor(body.confirmedGuests)   // +1 = el invitado principal
         : 0
 
   const restrictions = Array.isArray(body.dietaryRestrictions)

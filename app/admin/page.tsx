@@ -15,6 +15,16 @@ export default async function AdminPage() {
 
   const guests = await listAllGuests()
 
+  const countPeople = (status: string) =>
+    guests
+      .filter((g) => g.status === status)
+      .reduce((s, g) => s + (g.confirmedGuests ?? 1), 0)
+
+  const totalPersonas = countPeople("Confirmado") + countPeople("Tal vez") +
+    guests.filter((g) => g.status === "Declinado" || g.status === "Por Enviar" || g.status === "Pendiente").length
+
+  const maxPersonas = guests.reduce((s, g) => s + 1 + g.maxGuests, 0)
+
   return (
     <div className="min-h-screen bg-stone-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
@@ -24,13 +34,17 @@ export default async function AdminPage() {
               Lista de Invitados
             </h1>
             <p className="text-gray-500 text-sm mt-1">
-              {guests.length} invitados · Cada link es único y privado
+              {guests.length} invitados · {totalPersonas} asistentes · {maxPersonas} capacidad (+2 los novios = {maxPersonas + 2}) · Cada link es único y privado
             </p>
           </div>
           <div className="flex gap-2">
             <span className="text-sm text-gray-400 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400" />
-              {guests.filter((g) => g.status === "Confirmado").length} confirmados
+              {countPeople("Confirmado")} confirmados
+            </span>
+            <span className="text-sm text-gray-400 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-yellow-400" />
+              {countPeople("Tal vez")} tal vez
             </span>
             <span className="text-sm text-gray-400 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-yellow-400" />

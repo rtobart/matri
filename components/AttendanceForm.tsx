@@ -47,7 +47,10 @@ export function AttendanceForm({
   )
 
   // --- Modo numérico (fallback) ---
-  const [confirmedGuests, setConfirmedGuests] = useState(savedConfirmedGuests ?? 0)
+  // savedConfirmedGuests ahora es total de personas → restamos 1 para mostrar acompañantes
+  const [confirmedGuests, setConfirmedGuests] = useState(
+    savedConfirmedGuests != null ? Math.max(0, savedConfirmedGuests - 1) : 0
+  )
 
   function toggleName(name: string) {
     const next = new Set(selectedNames)
