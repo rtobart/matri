@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Natalia & Robinson | Invitación",
   description: "Acompañanos a celebrar nuestro matrimonio",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/icon.png",
+  },
 }
 
 export default function RootLayout({
