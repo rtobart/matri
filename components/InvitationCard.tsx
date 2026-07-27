@@ -71,23 +71,6 @@ export function InvitationCard({ wedding, showMessage = false }: { wedding: Wedd
         </div>
       )}
 
-
-      {wedding.fotoPortada ? (
-        <div className="mt-14 h-52 w-36 overflow-hidden rounded-[7rem] border border-[var(--sage)]/60 p-2 sm:h-64 sm:w-44">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={wedding.fotoPortada} alt="" className="h-full w-full rounded-[6rem] object-cover" />
-        </div>
-      ) : (
-        <div className="mt-14 flex h-24 items-center gap-3 text-[var(--sage)]/70">
-          <span className="h-px w-20 bg-[var(--sage)]/50" />
-          <svg aria-hidden="true" className="h-12 w-12" viewBox="0 0 64 64" fill="none">
-            <path d="M32 57C29 42 20 32 8 28M32 57C35 42 44 32 56 28M32 57V9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M25 45c-7-1-11-4-14-10M39 45c7-1 11-4 14-10M24 31c-5-1-8-3-10-7M40 31c5-1 8-3 10-7M32 22c-4-2-6-5-6-9M32 22c4-2 6-5 6-9" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-          </svg>
-          <span className="h-px w-20 bg-[var(--sage)]/50" />
-        </div>
-      )}
-
     </section>
   )
 }

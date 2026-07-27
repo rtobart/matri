@@ -65,6 +65,19 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
          <InvitationCard wedding={wedding} showMessage />
         <div className="hairline" />
 
+        <section className="border-t border-[var(--line)] py-20 text-center sm:py-28">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/letter-icon.svg" alt="" className="mx-auto mb-4 h-32 w-auto opacity-70" />
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Una invitación para</p>
+          {guest.name && <h2 className="font-display text-4xl text-[var(--foreground)] sm:text-5xl">{guest.name}</h2>}
+          {guest.companionNames.length > 0 && (
+            <div className="mx-auto mt-8 max-w-md">
+              <p className="text-sm text-[var(--ink-muted)]">Y para tu{guest.companionNames.length > 1 ? "s" : ""} acompañante{guest.companionNames.length > 1 ? "s" : ""}</p>
+              <p className="mt-3 text-sm text-[var(--clay)]">{guest.companionNames.join(" | ")}</p>
+            </div>
+          )}
+        </section>
+
         {[
           { label: "Vestimenta", value: wedding?.vestimenta },
           { label: "Alojamiento y transporte", value: wedding?.alojamientoTransporte },
@@ -93,19 +106,6 @@ export default async function InvitacionPage({ params }: { params: Promise<{ gue
             </div>
           </section>
         )}
-
-        <section className="border-t border-[var(--line)] py-20 text-center sm:py-28">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/letter-icon.svg" alt="" className="mx-auto mb-4 h-32 w-auto opacity-70" />
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--sage-dark)]">Una invitación para</p>
-          {guest.name && <h2 className="font-display text-4xl text-[var(--foreground)] sm:text-5xl">{guest.name}</h2>}
-          {guest.companionNames.length > 0 && (
-            <div className="mx-auto mt-8 max-w-md">
-              <p className="text-sm text-[var(--ink-muted)]">Y para tu{guest.companionNames.length > 1 ? "s" : ""} acompañante{guest.companionNames.length > 1 ? "s" : ""}</p>
-              <p className="mt-3 text-sm text-[var(--clay)]">{guest.companionNames.join(" | ")}</p>
-            </div>
-          )}
-        </section>
 
         <section id="rsvp" className="scroll-mt-20 border-t border-[var(--line)] py-20 sm:py-28">
           <ConfirmClient
