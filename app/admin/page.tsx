@@ -1,9 +1,18 @@
+import { cookies } from "next/headers"
 import { listAllGuests } from "@/lib/notion"
 import AdminTable from "./AdminTable"
+import { AdminLogin } from "./AdminLogin"
 
 export const dynamic = "force-dynamic"
 
 export default async function AdminPage() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get("admin_token")?.value
+
+  if (token !== "authenticated") {
+    return <AdminLogin />
+  }
+
   const guests = await listAllGuests()
 
   return (
