@@ -12,9 +12,9 @@ Aplicación de invitaciones de matrimonio construida con Next.js, React, Notion 
 
 ![Vista completa de la invitación](docs/screenshots/invitacion.png)
 
-### Acceso al panel admin
+### Panel admin
 
-![Login del panel de administración](docs/screenshots/admin-login.png)
+![Tabla del panel de administración con datos censurados](docs/screenshots/admin-table.png)
 
 ## Cómo funciona
 
